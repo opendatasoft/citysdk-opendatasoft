@@ -1,30 +1,30 @@
-CitySDK.prototype.modules.ods = new ODSModule();
+CitySDK.prototype.modules.opendatasoft = new ODSModule();
 
-function ODSModule() {
+function OpenDataSoftModule() {
     this.enabled = false;
 };
 
-ODSModule.prototype.enable = function () {
+OpenDataSoftModule.prototype.enable = function (portalUrl) {
+    swagger = new SwaggerClient({
+        url: portalUrl + "/api/v2/swagger.json",
+        success: function () {
+            Object.getOwnPropertyNames(swagger.default.operations).forEach(function (method_name) {
+                OpenDataSoftModule.prototype[method_name] = function (request, callback, callbackerror) {
+                    swagger.default[method_name](
+                        request,
+                        function (response) {
+                            callback(response.obj);
+                        },
+                        function (response) {
+                            callbackerror(response);
+                        });
+                }
+            });
+        }
+    });
+
     this.enabled = true;
 };
-
-swagger = new SwaggerClient({
-    url: "http://public.opendatasoft.com/api/v2/swagger.json",
-    success: function () {
-        Object.getOwnPropertyNames(swagger.default.operations).forEach(function (method_name) {
-            ODSModule.prototype[method_name] = function (request, callback, callbackerror) {
-                swagger.default[method_name](
-                    request,
-                    function (response) {
-                        callback(response.obj);
-                    },
-                    function (response) {
-                        callbackerror(response);
-                    });
-            }
-        });
-    }
-});
 
 /*
  get: module.exports
