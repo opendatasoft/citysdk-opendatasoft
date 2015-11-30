@@ -70,7 +70,7 @@
                     response.datasets.forEach(function (entry) {
                         dataset = entry.dataset;
                         if (dataset.hasOwnProperty(property)) {
-                            output.append("<b>" + property + "</b>: " + dataset[property] + "; ");
+                            output.append("<b>" + property + "</b>: " + dataset[property]);
                         }
                         output.append("<br/>");
                     });
@@ -85,11 +85,16 @@
         }
     </script>
     <style type="text/css">
+        div {
+            padding-left: 0px;
+        }
         ul {
             list-style-type: none;
+            margin-left: 0px;
+            padding-left: 0px;
         }
         ul li {
-            padding: 5px;
+            padding: 5px 0px 5px 0px;
         }
         ul li input {
             width: 200px;
@@ -103,7 +108,7 @@
     <div id="myform">
         <ul>
             <li><input id="dataset" name="dataset" value="" type="text"/><label for="dataset">Dataset identifier (e.g.: categories-juridiques-insee)</label></li>
-            <li><input id="query" name="query" value="INSEE" type="text"/><lael for="query">Query (e.g. INSEE)</li>
+            <li><input id="query" name="query" type="text"/><lael for="query">Query (e.g. INSEE)</li>
             <li><input type="submit" onclick="submit()" value="Submit"/></li>
         </ul>
     </div>
