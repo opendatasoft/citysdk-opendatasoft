@@ -4,27 +4,28 @@ function OpenDataSoftModule() {
     this.enabled = false;
 };
 
-OpenDataSoftModule.prototype.enable = function (portalUrl) {
-    swagger = new SwaggerClient({
-        url: portalUrl + "/api/v2/swagger.json",
-        success: function () {
-            Object.getOwnPropertyNames(swagger.default.operations).forEach(function (method_name) {
-                OpenDataSoftModule.prototype[method_name] = function (request, callback, callbackerror) {
-                    swagger.default[method_name](
-                        request,
-                        function (response) {
-                            callback(response.obj);
-                        },
-                        function (response) {
-                            callbackerror(response);
-                        });
-                }
-            });
-        }
-    });
-
+OpenDataSoftModule.prototype.enable = function () {
     this.enabled = true;
 };
+
+swagger = new SwaggerClient({
+    url: "http://public.opendatasoft.com/api/v2/swagger.json",
+    success: function () {
+        Object.getOwnPropertyNames(swagger.default.operations).forEach(function (method_name) {
+            OpenDataSoftModule.prototype[method_name] = function (request, callback, callbackerror) {
+                swagger.default[method_name](
+                    request,
+                    function (response) {
+                        callback(response.obj);
+                    },
+                    function (response) {
+                        callbackerror(response);
+                    });
+            }
+        });
+    }
+});
+
 
 /*
  get: module.exports
