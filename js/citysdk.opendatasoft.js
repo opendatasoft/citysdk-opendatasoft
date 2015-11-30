@@ -1,4 +1,4 @@
-CitySDK.prototype.modules.opendatasoft = new ODSModule();
+CitySDK.prototype.modules.opendatasoft = new OpenDataSoftModule();
 
 function OpenDataSoftModule() {
     this.enabled = false;
